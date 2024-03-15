@@ -2,5 +2,4 @@
 
 members = [
     "detexify",
-    "detexify-server",
 ]
