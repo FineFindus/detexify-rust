@@ -1,5 +1,9 @@
 use crate::stroke_sample::StrokeSample;
 use itertools::Itertools;
+use rayon::{
+    iter::{IntoParallelRefIterator, ParallelIterator},
+    slice::ParallelSliceMut,
+};
 use serde::Serialize;
 use std::collections::HashMap;
 
@@ -62,6 +66,35 @@ impl Classifier {
                 .sorted_by(|x, y| x.score.partial_cmp(&y.score).unwrap())
                 .collect(),
         )
+    }
+
+    pub fn classify_par(&self, unknown: StrokeSample) -> Option<Vec<Score>> {
+        if unknown.is_empty() {
+            return None;
+        }
+
+        let mut samples = self
+            .samples
+            .par_iter()
+            .map(|(id, samples)| {
+                let mean_dist = samples
+                    .iter()
+                    .cloned()
+                    .map(|s| StrokeSample::distance(unknown.clone(), s))
+                    .sorted_by(|x, y| x.partial_cmp(y).unwrap())
+                    .take(2)
+                    .fold(0.0, |acc, x| acc + x)
+                    / 2.0;
+
+                (id, mean_dist)
+            })
+            .map(|(id, dist)| Score {
+                id: id.clone(),
+                score: dist,
+            })
+            .collect::<Vec<_>>();
+        samples.par_sort_unstable_by(|x, y| x.score.partial_cmp(&y.score).unwrap());
+        Some(samples)
     }
 }
 

@@ -1,8 +1,12 @@
-# Detexify Rust
+# Detexify
 
-Port of detexify to rust. 
+The `detexify` crate is a port of the classifier that powers https://detexify.kirelabs.org/classify.html.
 
-| Crate | Description |
-| :---- | :---------- |
-| [detexify](/detexify) | port of the classifier that powers https://detexify.kirelabs.org/classify.html |
-| [detexify-server](/detexify-server) | port of the [detexify backend](https://github.com/kirel/detexify-hs-backend). |
+## Usage
+
+Add this to your Cargo.toml:
+
+```
+[dependencies]
+detexify = "0.2.0"
+```
