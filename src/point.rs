@@ -47,11 +47,11 @@ impl Mul<f64> for Point {
 
 fn clamp(v: f64, min: f64, max: f64) -> f64 {
     if v < min {
-        return min;
+        min
     } else if v > max {
-        return max;
+        max
     } else {
-        return v;
+        v
     }
 }
 
