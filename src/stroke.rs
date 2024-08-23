@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 use std::collections::VecDeque;
 
 #[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
-pub struct Stroke(Vec<Point>);
+pub struct Stroke(pub Vec<Point>);
 
 impl Stroke {
     pub fn new(points: Vec<Point>) -> Self {

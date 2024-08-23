@@ -10,7 +10,7 @@ use std::f64::consts::PI;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct StrokeSample {
-    strokes: Vec<Stroke>,
+    pub strokes: Vec<Stroke>,
 }
 
 impl StrokeSample {
